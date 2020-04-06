@@ -1,0 +1,27 @@
+version: "2"
+services:
+  inventory-managemant-job:
+    build:
+      context: ./
+    ports:
+    - 3000:3000
+    environment:
+      HOST: localhost
+      PORT : 8080
+      DBHOST : db
+      DBPORT : 5432
+      DBNAME : inventory_managemant
+      DBUSER : postgres
+      DBPASSWORD : postgres
+      RMQ_URI : amqp://rabbitmq:rabbitmq@rabbitmq:5672/
+      RMQ_QUEUENAME : shipment
+    networks:
+      - db
+      - rabbitmq
+networks:
+  db:
+    external:
+      name: postgres_default
+  rabbitmq:
+    external:
+      name: rabbitmq_default  
